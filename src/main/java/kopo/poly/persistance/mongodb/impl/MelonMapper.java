@@ -1,5 +1,6 @@
 package kopo.poly.persistance.mongodb.impl;
 
+import static  com.mongodb.client.model.Updates.set;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
@@ -273,5 +274,31 @@ public class MelonMapper extends AbstractMongoDBComon implements IMelonMapper {
 
         return res;
     }
+
+    @Override
+    public int updateSongAddField(String colNm, String singer, String nickname) throws Exception {
+
+        log.info(this.getClass().getName() + "updateSongAddField start!");
+
+        int res = 0;
+
+        MongoCollection<Document> col = mongodb.getCollection(colNm);
+
+        log.info("pColNm : "+ colNm);
+
+        Document query = new Document();
+        query.append("singer", singer);
+
+        FindIterable<Document> rs = col.find(query);
+
+        rs.forEach(document -> col.updateOne(document, set("nickname", nickname)));
+
+        res = 1;
+
+        log.info(this.getClass().getName() + ".updateAddField end!");
+
+        return res;
+    }
+
 
 }

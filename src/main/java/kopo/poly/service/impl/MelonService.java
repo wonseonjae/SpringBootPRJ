@@ -188,4 +188,28 @@ public class MelonService implements IMelonService {
 
         return res;
     }
+
+    @Override
+    public int updateAddBTSNickname() throws Exception {
+        log.info(this.getClass().getName() + ".updateAddBTSNickname start!");
+
+        int res = 0;
+
+        String colNm = "MELON_" + DateUtil.getDateTime("yyyyMMdd");
+
+        melonMapper.dropMelonCollection(colNm);
+
+        if (this.collectMelonSong() == 1) {
+            String singer = "방탄소년단";
+
+            String nickname = "BTS";
+
+            res = melonMapper.updateSongAddField(colNm, singer, nickname);
+        }
+        log.info(this.getClass().getName() + "updateBTSName end!");
+
+        return res;
+    }
+
+
 }

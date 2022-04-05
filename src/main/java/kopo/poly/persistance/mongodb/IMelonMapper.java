@@ -67,6 +67,16 @@ public interface IMelonMapper {
 
     int updateSong(String colNm, String singer, String updateSinger) throws Exception;
 
+    /*
+    가수Nickname 필드 추가 및 값 저장하기
+
+    @param colNm 저장할 컬렉션 이름
+    @param singer 추가할 가수 이름
+    @param nickname 추가할 가수 닉네임
+    @return 저장 결과
+    */
+
+    int updateSongAddField(String colNm, String singer, String nickname) throws Exception;
 
 
 

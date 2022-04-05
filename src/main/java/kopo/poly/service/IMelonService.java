@@ -28,4 +28,7 @@ public interface IMelonService {
 
     /*singer 필드의 값인 방탄소년단을 BTS로 변경하기*/
     int updateBTSName() throws Exception;
+
+    /* nickname 필드를 새로 추가하기*/
+    int updateAddBTSNickname() throws Exception;
 }
