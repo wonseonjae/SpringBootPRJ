@@ -31,4 +31,7 @@ public interface IMelonService {
 
     /* nickname 필드를 새로 추가하기*/
     int updateAddBTSNickname() throws Exception;
+
+    /* 그룹멤버 필드를 새로 추가하기*/
+    int updateAddBTSMember() throws Exception;
 }

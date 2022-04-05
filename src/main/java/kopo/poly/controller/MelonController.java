@@ -151,4 +151,24 @@ public class MelonController {
 
         return msg;
     }
+
+    @GetMapping(value = "melon/btsAddMember")
+    public String btsAddListField() throws Exception {
+        log.info(this.getClass().getName() + "btsAddListField controller start!");
+
+        String msg;
+
+        int res = melonService.updateAddBTSMember();
+
+        if (res ==1 ) {
+            msg = "success";
+
+        }else {
+            msg = "fail";
+
+        }
+        log.info(this.getClass().getName() + ".btsAddListField controller end!");
+
+        return msg;
+    }
 }
