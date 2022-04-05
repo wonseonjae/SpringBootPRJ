@@ -234,5 +234,44 @@ public class MelonMapper extends AbstractMongoDBComon implements IMelonMapper {
         return res;
 
     }
+    @Override
+    public int dropMelonCollection(String colNm) throws Exception{
+        log.info(this.getClass().getName() + ".dropMelonCollection started! ");
+
+        int res = 0;
+
+        super.dropCollection(colNm);
+
+        res = 1;
+
+        log.info(this.getClass().getName() + ".dropMelonCollection end! ");
+
+        return res;
+
+    }
+
+    @Override
+    public int updateSong(String pColNm, String pSinger, String pUpdateSinger) throws Exception{
+        log.info(this.getClass().getName() + "updateSong start!");
+
+        int res = 0;
+
+        MongoCollection<Document> col = mongodb.getCollection(pColNm);
+
+        log.info("pColNm : "+ pColNm);
+
+        Document query = new Document();
+        query.append("singer", pSinger);
+
+        FindIterable<Document> rs = col.find(query);
+
+        rs.forEach(document -> col.updateOne(document, new Document("$set", new Document("singer", "BTS"))));
+
+        res = 1;
+
+        log.info(this.getClass().getName() + ".updateSong end!");
+
+        return res;
+    }
 
 }

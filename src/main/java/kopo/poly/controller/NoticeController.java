@@ -42,7 +42,16 @@ public class NoticeController {
      */
     @GetMapping(value = "index")
     public String Index() {
+
         return "/index";
+
+    }
+
+    @GetMapping(value = "restapi")
+    public String RestAPI() {
+        log.info("test시작");
+
+        return "/test";
 
     }
 

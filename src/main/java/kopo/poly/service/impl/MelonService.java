@@ -108,7 +108,7 @@ public class MelonService implements IMelonService {
         log.info(this.getClass().getName() + ".getSingerSong Start!");
 
         String colNm = "MELON_" + DateUtil.getDateTime("yyyyMMdd");
-        String singer = "(여자)아이들";
+        String singer = "BTS";
 
         List<MelonDTO> rList= null;
 
@@ -162,6 +162,29 @@ public class MelonService implements IMelonService {
         res = melonMapper.insertSong(pList, colNm);
 
         log.info(this.getClass().getName() + ".collectMelonSongMany End!");
+
+        return res;
+    }
+
+    @Override
+    public int updateBTSName() throws Exception {
+
+        log.info(this.getClass().getName() + ".updateBTSName start!");
+
+        int res = 0;
+
+        String colNm = "MELON_" + DateUtil.getDateTime("yyyyMMdd");
+
+        melonMapper.dropMelonCollection(colNm);
+
+        if (this.collectMelonSong() == 1) {
+            String singer = "방탄소년단";
+
+            String updateSinger = "BTS";
+
+            res = melonMapper.updateSong(colNm, singer, updateSinger);
+        }
+        log.info(this.getClass().getName() + "updateBTSName end!");
 
         return res;
     }

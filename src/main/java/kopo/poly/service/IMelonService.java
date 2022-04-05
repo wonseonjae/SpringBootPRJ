@@ -25,4 +25,7 @@ public interface IMelonService {
     List<MelonDTO> getSingerSong() throws Exception;
 
     int collectMelonSongMany() throws Exception;
+
+    /*singer 필드의 값인 방탄소년단을 BTS로 변경하기*/
+    int updateBTSName() throws Exception;
 }
