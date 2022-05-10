@@ -324,5 +324,62 @@ public class MelonMapper extends AbstractMongoDBComon implements IMelonMapper {
         return res;
     }
 
+    @Override
+    public int deleteSong(String pColNm, String pSinger) throws Exception {
+        log.info(this.getClass().getName() + "deleteField start!");
+
+        int res = 0;
+
+        MongoCollection<Document> col = mongodb.getCollection(pColNm);
+
+        log.info("pColNm : "+ pColNm);
+
+        Document query = new Document();
+        query.append("singer", pSinger);
+
+        FindIterable<Document> rs = col.find(query);
+
+        rs.forEach(document -> col.deleteOne(document));
+
+        res = 1;
+
+        log.info(this.getClass().getName() + ".deleteField end!");
+
+        return res;
+    }
+
+    @Override
+    public int updateManySong(String pColNm, String pSinger, String pUpdateSinger, String pUpdateSong) throws Exception {
+        log.info(this.getClass().getName() + "updateManySong start!");
+
+        int res = 0;
+
+        MongoCollection<Document> col = mongodb.getCollection(pColNm);
+
+        log.info("pColNm : "+ pColNm);
+        log.info("pColNm : "+ pSinger);
+        log.info("pUpdateSinger : "+ pUpdateSinger );
+        log.info("pUpdateSong : "+ pUpdateSong);
+
+
+        Document query = new Document();
+        query.append("singer", pSinger);
+
+        FindIterable<Document> rs = col.find(query);
+
+        Document updateDoc = new Document();
+        updateDoc.append("singer", pUpdateSinger);
+        updateDoc.append("song", pUpdateSong);
+        updateDoc.append("addData","난 기존 필드 수정과 동시에 추가한 데이터");
+
+        rs.forEach(document -> col.updateOne(document, new Document("$set", updateDoc)));
+
+        res = 1;
+
+        log.info(this.getClass().getName() + ".updateManySong end!");
+
+        return res;
+    }
+
 
 }

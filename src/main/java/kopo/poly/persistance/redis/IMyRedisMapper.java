@@ -2,6 +2,10 @@ package kopo.poly.persistance.redis;
 
 import kopo.poly.dto.RedisDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
+
+import java.util.List;
+import java.util.Set;
 
 
 public interface IMyRedisMapper {
@@ -25,4 +29,22 @@ public interface IMyRedisMapper {
     @return 저장 성공 여부
     */
     int saveRedisJson(String redisKey, RedisDTO pDTO) throws Exception;
+
+    int saveRedisList(String redisKey, List<RedisDTO> pList) throws Exception;
+
+    List<String> getRedisList(String redisKey) throws Exception;
+
+    int saveRedisListJson(String redisKey, List<RedisDTO> pList) throws Exception;
+
+    List<RedisDTO> getRedisListJson(String redisKey) throws Exception;
+
+    int saveRedisListJsonRamda(String redisKey, List<RedisDTO> pList) throws Exception;
+
+    int saveRedisHash(String redisKey, RedisDTO pDTO) throws Exception;
+
+    RedisDTO getRedisHash(String redisKey) throws Exception;
+
+    int saveRedisSet(String redisKey, Set<RedisDTO> pSet) throws Exception;
+
+    Set<RedisDTO> getRedisSet(String redisKey) throws Exception;
 }

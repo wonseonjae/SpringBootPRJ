@@ -237,4 +237,46 @@ public class MelonService implements IMelonService {
     }
 
 
+    @Override
+    public int deleteSong() throws Exception {
+        log.info(this.getClass().getName() + ".deleteSong start!");
+
+        int res = 0;
+
+        String colNm = "MELON_" + DateUtil.getDateTime("yyyyMMdd");
+
+        String singer = "방탄소년단";
+
+            res = melonMapper.deleteSong(colNm, singer);
+
+        log.info(this.getClass().getName() + "deleteSong end!");
+
+        return res;
+    }
+
+    @Override
+    public int updateManySong() throws Exception {
+
+        log.info(this.getClass().getName() + ".updateManySong start!");
+
+        int res = 0;
+
+        String colNm = "MELON_" + DateUtil.getDateTime("yyyyMMdd");
+
+        melonMapper.dropMelonCollection(colNm);
+
+        if (this.collectMelonSong() == 1) {
+            String singer = "방탄소년단";
+            String updateSinger = "BTS";
+            String updateSong = "BTS-SONG";
+
+            res = melonMapper.updateManySong(colNm, singer, updateSinger, updateSong);
+        }
+
+        log.info(this.getClass().getName() + ".updateManySong End!");
+
+        return res;
+    }
+
+
 }
