@@ -82,15 +82,21 @@ function calBytes(str){
 			<td><input type="text" name="title" maxlength="100" style="width: 450px" /></td>
 		</tr>
 		<tr>
-			<td align="center">공지글 여부</td>
-			<td>예<input type="radio" name="noticeYn" value="Y" />
-			        아니오<input type="radio" name="noticeYn" value="N" />
+			<td align="center">코스이름</td>
+			<td>
+				<select>
+					<option>코스선택</option>
+				</select>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
 				<textarea name="contents" style="width: 550px; height: 400px"></textarea>
 			</td>
+		</tr>
+		<tr>
+			<td>이미지 첨부</td>
+			<td></td>
 		</tr>
 	<tr>
 		<td align="center" colspan="2">

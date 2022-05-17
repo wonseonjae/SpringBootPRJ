@@ -2,6 +2,7 @@ package kopo.poly.service.impl;
 
 import kopo.poly.dto.MelonDTO;
 import kopo.poly.persistance.mongodb.IMelonMapper;
+import kopo.poly.persistance.redis.IMelonCacheMapper;
 import kopo.poly.service.IMelonService;
 import kopo.poly.util.CmmUtil;
 import kopo.poly.util.DateUtil;
@@ -26,6 +27,9 @@ public class MelonService implements IMelonService {
 
     @Resource(name = "MelonMapper")
     private IMelonMapper melonMapper; //MongoDB에 저장할 Mapper
+
+    @Resource(name= "MelonCacheMapper")
+    private IMelonCacheMapper melonCacheMapper;
 
 
     @Override
@@ -63,6 +67,8 @@ public class MelonService implements IMelonService {
 
         res = melonMapper.insertSong(pList, colNm);
 
+        res = melonCacheMapper.insertSong(pList, colNm);
+
         log.info(this.getClass().getName() + ".collectMelonSong End!");
 
         return res;
@@ -76,7 +82,13 @@ public class MelonService implements IMelonService {
 
         List<MelonDTO> rList = new LinkedList<>();
 
-        rList = melonMapper.getSongList(colNm);
+        if (melonCacheMapper.getExistKey(colNm)) {
+            log.info("redis cache data");
+            rList = melonCacheMapper.getSongList(colNm);
+        } else {
+            log.info("mongodb data");
+            rList = melonMapper.getSongList(colNm);
+        }
 
         if (rList == null) {
             rList = new LinkedList<>();

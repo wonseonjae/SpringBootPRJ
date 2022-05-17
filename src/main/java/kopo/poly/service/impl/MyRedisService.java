@@ -225,4 +225,51 @@ public class MyRedisService implements IMyRedisService {
         return myRedisMapper.getRedisSet(redisKey);
     }
 
+    @Override
+    public int saveRedisZSet() throws Exception{
+        log.info(this.getClass().getName()+".saveRedisZSet start!");
+        String redisKey = "myRedis_ZSet_JSON";
+
+        List<RedisDTO> pList = new LinkedList<>();
+
+        for (int i = 0; i < 10; i++) {
+
+            RedisDTO pDTO = new RedisDTO();
+            pDTO.setAddr("김포");
+            pDTO.setName("원선재");
+            pDTO.setEmail("bij750@gmail.com");
+            pDTO.setTest_text(i+"번째 글입니다");
+
+            pList.add(pDTO);
+            pDTO = null;
+        }
+
+        int res = myRedisMapper.saveRedisZSet(redisKey, pList);
+        log.info(this.getClass().getName()+"saveRedisZSet end!");
+        return res;
+    }
+
+
+    @Override
+    public Set<RedisDTO> getRedisZSet() throws Exception{
+        String redisKey = "myRedis_ZSet_JSON";
+
+        Set<RedisDTO> rSet = myRedisMapper.getRedisZSet(redisKey);
+        if (rSet == null) {
+            rSet = new HashSet<>();
+        }
+        return rSet;
+    }
+
+    @Override
+    public boolean deleteDataJSON() throws Exception {
+
+        String redisKey = "myRedis_ZSet_JSON";
+
+        boolean res = myRedisMapper.deleteDataJSON(redisKey);
+
+        return res;
+    }
+
+
 }

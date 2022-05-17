@@ -166,4 +166,34 @@ public class RedisController {
         return rSet;
     }
 
+    @GetMapping(value = "/redis/saveRedisZSet")
+    public String saveRedisZSet() throws Exception{
+        String msg = "";
+
+        int res = myRedisService.saveRedisZSet();
+
+        if (res == 1) {
+            msg = "성공";
+            return msg;
+
+        }else {
+            msg = "실패";
+            return msg;
+        }
+
+    }
+
+    @GetMapping(value = "/redis/getRedisZSet")
+    public Set<RedisDTO> getRedisZSet() throws Exception {
+        Set<RedisDTO> rSet = myRedisService.getRedisZSet();
+        return  rSet;
+    }
+
+    @GetMapping(value = "/reis/deleteDataJSON")
+    public boolean deleteDataJSON() throws Exception {
+        boolean res = myRedisService.deleteDataJSON();
+
+        return res;
+    }
+
 }

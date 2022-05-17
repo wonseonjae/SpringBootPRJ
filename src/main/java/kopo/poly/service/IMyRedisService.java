@@ -54,4 +54,12 @@ public interface IMyRedisService {
     int saveRedisSet() throws Exception;
 
     Set<RedisDTO> getRedisSet() throws Exception;
+
+    int saveRedisZSet() throws Exception;
+
+    Set<RedisDTO> getRedisZSet() throws Exception;
+
+    boolean deleteDataJSON() throws Exception;
+
+
 }

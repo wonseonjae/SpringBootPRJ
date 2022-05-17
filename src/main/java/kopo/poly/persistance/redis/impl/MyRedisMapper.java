@@ -7,6 +7,7 @@ import kopo.poly.util.CmmUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
@@ -269,6 +270,60 @@ public class MyRedisMapper implements IMyRedisMapper {
         }
 
         return rSet;
+    }
+
+    @Override
+    public int saveRedisZSet(String redisKey, List<RedisDTO> pList) throws Exception {
+            log.info(this.getClass().getName()+"saveRedisZSet start!");
+
+            int res = 0;
+            redisDB.setKeySerializer(new StringRedisSerializer());
+            redisDB.setValueSerializer(new Jackson2JsonRedisSerializer<>(RedisDTO.class));
+            int idx = 0;
+
+            for (RedisDTO dto : pList) {
+                log.info(dto.getAddr());
+                redisDB.opsForZSet().add(redisKey, dto, ++idx);
+            }
+
+            redisDB.expire(redisKey,5,TimeUnit.HOURS);
+
+            res = 1;
+            log.info(this.getClass().getName()+"saveRedisZSet start!");
+
+            return res;
+    }
+
+    @Override
+    public Set<RedisDTO> getRedisZSet(String redisKey) throws Exception {
+
+            Set<RedisDTO> rSet = null;
+
+            redisDB.setKeySerializer(new StringRedisSerializer());
+            redisDB.setValueSerializer(new Jackson2JsonRedisSerializer<>(RedisDTO.class));
+
+            if (redisDB.hasKey(redisKey)) {
+                long cnt = redisDB.opsForZSet().size(redisKey);
+
+                rSet = (Set) redisDB.opsForZSet().range(redisKey,0,cnt);
+            }
+            return rSet;
+
+    }
+
+    @Override
+    public boolean deleteDataJSON(String redisKey) throws Exception {
+        redisDB.setKeySerializer(new StringRedisSerializer());
+        redisDB.setValueSerializer(new Jackson2JsonRedisSerializer<>(RedisDTO.class));
+
+        boolean res = false;
+
+        if (redisDB.hasKey(redisKey)) {
+            redisDB.delete(redisKey);
+
+            res = true;
+        }
+            return res;
     }
 
 }
